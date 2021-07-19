@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .App-logo {
+    @apply h-2/5 pointer-events-none animate-spin-slow;
+  }
+
+  .App-header {
+    @apply bg-gray-900 min-h-screen flex flex-col items-center justify-center text-2xl text-white;
+  }
+
+  .storybook-button {
+    @apply font-sans font-bold border-0 border-r-2 rounded-2xl cursor-pointer inline-block leading-none;
+  }
+  .storybook-button--primary {
+    @apply text-white bg-main;
+  }
+  .storybook-button--secondary {
+    @apply text-gray-200 bg-transparent shadow-sm;
+  }
+  .storybook-button--small {
+    @apply text-xs px-2.5 py-2;
+  }
+  .storybook-button--medium {
+    @apply text-sm px-3 py-2.5;
+  }
+  .storybook-button--large {
+    @apply text-base px-4 py-3;
+  }
+}

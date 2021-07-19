@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import logo from "./logo.svg";
-import { Button } from "./stories/Button";
+import React, { useState } from 'react'
+import logo from './logo.svg'
+import { Button } from './stories/Button'
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0)
 
   return (
-    <div className="App text-center">
+    <div className="text-center App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>Hello Vite + React!</p>
@@ -22,10 +22,15 @@ function App() {
           Edit <code>App.tsx</code> and save to test HMR updates.
         </p>
         <p>
-          <a className="App-link text-main" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
+          <a
+            className="text-main App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Learn React
           </a>
-          {" | "}
+          {' | '}
           <a
             className="App-link"
             href="https://vitejs.dev/guide/features.html"
@@ -37,7 +42,7 @@ function App() {
         </p>
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

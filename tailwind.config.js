@@ -1,6 +1,8 @@
 module.exports = {
-  purge: ['./src/**/*.{js,jsx,ts,tsx}', './index.html'],
-  darkMode: false, // or 'media' or 'class'
+  content: [
+    './src/components/**/*.{js,jsx,ts,tsx}',
+    './src/pages/*.{js,jsx,ts,tsx}'
+  ],
   theme: {
     extend: {
       animation: {
@@ -17,6 +19,8 @@ module.exports = {
       }
     }
   },
-  variants: {},
-  plugins: []
+  plugins: [],
+  corePlugins: {
+    preflight: false
+  }
 }

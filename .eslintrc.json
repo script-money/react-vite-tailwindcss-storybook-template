@@ -26,7 +26,8 @@
     "plugin:prettier/recommended",
     "plugin:tailwindcss/recommended"
   ],
-  "plugins": ["tailwindcss"],
+  "plugins": ["tailwindcss", "eslint-plugin-prettier"],
+  "ignorePatterns": ["dist/**/*", "node_modules/**/*", "coverage/**/*"],
   "rules": {
     "prettier/prettier": ["error", { "singleQuote": true, "printWidth": 80 }],
     "react/react-in-jsx-scope": "off",

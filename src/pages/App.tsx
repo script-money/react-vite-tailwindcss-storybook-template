@@ -1,18 +1,20 @@
-import * as React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Web3ReactProvider,
   useWeb3React,
   UnsupportedChainIdError
 } from '@web3-react/core'
 import {
+  InjectedConnector,
   NoEthereumProviderError,
   UserRejectedRequestError as UserRejectedRequestErrorInjected
 } from '@web3-react/injected-connector'
-import { Web3Provider } from '@ethersproject/providers'
+import { ExternalProvider, Web3Provider } from '@ethersproject/providers'
 import { formatEther, parseEther } from '@ethersproject/units'
+import { BigNumber } from '@ethersproject/bignumber'
 
-import { injected, network } from './connectors'
-import { useEagerConnect, useInactiveListener } from './hooks'
+import { injected, network } from '../global/connectors'
+import { useEagerConnect, useInactiveListener } from '../hooks'
 
 const TO_WALLET = '0x8770479B8d27fb0347E6B44871c06f96a3C00000'
 
@@ -21,7 +23,7 @@ const connectorsByName = {
   Network: network
 }
 
-function getErrorMessage(error: any) {
+function getErrorMessage(error: Error) {
   if (error instanceof NoEthereumProviderError) {
     return 'No Ethereum browser extension detected, install MetaMask on desktop or visit from a dApp browser on mobile.'
   } else if (error instanceof UnsupportedChainIdError) {
@@ -34,7 +36,7 @@ function getErrorMessage(error: any) {
   }
 }
 
-function getLibrary(provider: any) {
+function getLibrary(provider: ExternalProvider) {
   const library = new Web3Provider(provider)
   library.pollingInterval = 8000
   return library
@@ -62,9 +64,10 @@ function MyComponent() {
   } = context
 
   // handle logic to recognize the connector currently being activated
-  const [activatingConnector, setActivatingConnector] = React.useState<any>()
-  React.useEffect(() => {
-    console.log('running')
+  const [activatingConnector, setActivatingConnector] =
+    useState<InjectedConnector>()
+  useEffect(() => {
+    console.log('When changing connector status')
     if (activatingConnector && activatingConnector === connector) {
       setActivatingConnector(undefined)
     }
@@ -77,16 +80,16 @@ function MyComponent() {
   useInactiveListener(!triedEager || !!activatingConnector)
 
   // set up block listener
-  const [blockNumber, setBlockNumber] = React.useState<any>()
-  React.useEffect(() => {
-    console.log('running', library)
+  const [blockNumber, setBlockNumber] = useState<number | null>()
+  useEffect(() => {
+    console.log('Using library:', library)
     if (library) {
       let stale = false
 
       console.log('fetching block number!!')
       library
         .getBlockNumber()
-        .then((blockNumber: any) => {
+        .then((blockNumber: number) => {
           if (!stale) {
             setBlockNumber(blockNumber)
           }
@@ -97,7 +100,7 @@ function MyComponent() {
           }
         })
 
-      const updateBlockNumber = (blockNumber: any) => {
+      const updateBlockNumber = (blockNumber: number) => {
         setBlockNumber(blockNumber)
       }
       library.on('block', updateBlockNumber)
@@ -111,15 +114,15 @@ function MyComponent() {
   }, [library, chainId])
 
   // fetch eth balance of the connected account
-  const [ethBalance, setEthBalance] = React.useState<any>()
-  React.useEffect(() => {
-    console.log('running')
+  const [ethBalance, setEthBalance] = useState<BigNumber | null>()
+  useEffect(() => {
+    console.log('fetching balance')
     if (library && account) {
       let stale = false
 
       library
         .getBalance(account)
-        .then((balance: any) => {
+        .then((balance: BigNumber) => {
           if (!stale) {
             setEthBalance(balance)
           }

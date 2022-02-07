@@ -7,7 +7,7 @@ const RPC_URLS = {
 }
 
 export const injected = new InjectedConnector({
-  supportedChainIds: [1, 3, 4, 5, 42]
+  supportedChainIds: [1, 4]
 })
 
 export const network = new NetworkConnector({
